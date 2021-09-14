@@ -14,6 +14,7 @@ async def send_text_to_room(
     client: AsyncClient,
     room_id: str,
     message: str,
+    formatted_message: Optional[str] = "",
     notice: bool = True,
     markdown_convert: bool = True,
     reply_to_event_id: Optional[str] = None,
@@ -26,6 +27,9 @@ async def send_text_to_room(
         room_id: The ID of the room to send the message to.
 
         message: The message content.
+
+        formatted_message: The message content with added HTML. Overwritten if
+            markdown_convert is true.
 
         notice: Whether the message should be sent with an "m.notice" message type
             (will not ping users).
@@ -43,6 +47,7 @@ async def send_text_to_room(
         "msgtype": msgtype,
         "format": "org.matrix.custom.html",
         "body": message,
+        "formatted_body": formatted_message
     }
 
     if markdown_convert:
